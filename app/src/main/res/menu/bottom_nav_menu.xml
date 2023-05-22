@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/navigation_map"
+        android:title="@string/title_map" />
+
+    <item
+        android:id="@+id/heartFragment"
+        android:icon="@drawable/navigation_heart"
+        android:title="@string/title_heart" />
+
+    <item
+        android:id="@+id/registrationFragment"
+        android:icon="@drawable/navigation_plus"
+        android:title="@string/title_assign" />
+
+    <item
+        android:id="@+id/mypageFragment"
+        android:icon="@drawable/navigation_mypage"
+        android:title="@string/title_mypage" />
+
+</menu>

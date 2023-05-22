@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.gps.GpsActivity">
+
+    <ImageView
+        android:id="@+id/iv_gps"
+        android:layout_width="137dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/location_permission"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_gps_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="위치기반 서비스 약관동의(선택)"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_gps" />
+
+    <TextView
+        android:id="@+id/tv_gps_decription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:text="편리한 오프라인 스토어 검색을 위해\n위치정보 동의가 필요합니다."
+        android:textAlignment="center"
+        android:textColor="@color/gray2"
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_gps_title" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_gps_agree"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="114dp"
+        android:background="@drawable/bt_main_round_100"
+        android:text="동의하기"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_gps_decription" />
+
+    <TextView
+        android:id="@+id/tv_gps_disagree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="싫어요"
+        android:textAlignment="center"
+        android:textColor="@color/main"
+        android:textSize="16dp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_gps_agree" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

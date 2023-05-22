@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Popple</string>
+    <string name="popple_message">작은 가게에서\n만나는 큰 세상,\n팝플</string>
+    <string name="popple_message_oneline">작은 가게에서 만나는 큰 세상</string>
+    <string name="popple_logo">ㅍㅍ</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!-- AAC Navigation -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_map">마켓찾기</string>
+    <string name="title_assign">등록하기</string>
+    <string name="title_heart">찜목록</string>
+    <string name="title_mypage">내정보</string>
+</resources>
