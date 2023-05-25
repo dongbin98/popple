@@ -29,6 +29,13 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
 
+        binding.bottomNav.setOnItemSelectedListener {
+            when(it.itemId) {
+
+            }
+            false
+        }
+
         binding.bottomNav.setupWithNavController(navController)
     }
 }

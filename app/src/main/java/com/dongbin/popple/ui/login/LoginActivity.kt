@@ -1,21 +1,17 @@
 package com.dongbin.popple.ui.login
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Gravity
-import android.view.ViewGroup
-import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.dongbin.popple.data.api.provideLoginApi
 import com.dongbin.popple.databinding.ActivityLoginBinding
 import com.dongbin.popple.rx.AutoClearedDisposable
 
@@ -100,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loginViewModel =
-            ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
+            ViewModelProvider(this, LoginViewModelFactory(provideLoginApi()))[LoginViewModel::class.java]
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -204,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginNormal() {
-        val dialog = NormalLoginDialog(this@LoginActivity).show()
+        val dialog = NormalLoginDialog(this@LoginActivity, this).show()
     }
 
     /*private fun logoutWithKakao() {
