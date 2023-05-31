@@ -3,9 +3,14 @@
     <style name="Base.Theme.Popple" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/main</item>
+<!--        <item name="colorSecondary">@color/sub</item>-->
+        <item name="colorOnPrimary">@color/white</item> <!-- colorPrimary의 대비색 -->
+<!--        <item name="colorOnSecondary">@color/black</item>   &lt;!&ndash; colorSecondary의 대비색 &ndash;&gt;-->
+        <item name="colorSurfaceVariant">@color/white</item>
     </style>
 
-    <style name="Theme.TransparentStatusBar" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.TransparentStatusBar" parent="Base.Theme.Popple">
         <!--drawerlayout statusbar -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowTranslucentStatus">true</item>

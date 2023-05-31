@@ -31,7 +31,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setOnItemSelectedListener {
             when(it.itemId) {
-
+                R.id.registrationFragment -> {
+                    Toast.makeText(this, "등록하기 클릭", Toast.LENGTH_SHORT).show()
+                }
             }
             false
         }

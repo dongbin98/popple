@@ -1,9 +1,9 @@
-package com.dongbin.popple.data.model
+package com.dongbin.popple.data.model.login
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse(
+data class ResponsePoppleLoginDto(
     @SerializedName("access_token")
     @Expose
     val accessToken: String?,

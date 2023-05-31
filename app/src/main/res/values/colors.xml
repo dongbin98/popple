@@ -6,6 +6,9 @@
     <color name="kakaoBackground">#FFFEE500</color>
     <color name="kakaoText">#FF3C1E1E</color>
     <color name="main">#FFFFAE11</color>
+    <color name="sub">#FAF0DC</color>
     <color name="gray1">#FFCFCFCF</color>
     <color name="gray2">#FF999999</color>
+    <color name="blue">#FF4D7EE0</color>
+    <color name="red">#FFFF3232</color>
 </resources>

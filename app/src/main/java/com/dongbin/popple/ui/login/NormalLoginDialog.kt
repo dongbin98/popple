@@ -1,16 +1,23 @@
 package com.dongbin.popple.ui.login
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.dongbin.popple.data.api.provideLoginApi
 import com.dongbin.popple.databinding.DialogLoginBinding
+import com.dongbin.popple.ui.gps.GpsActivity
+import com.dongbin.popple.ui.main.MainActivity
+import com.dongbin.popple.ui.register.RegisterActivity
 
 class NormalLoginDialog(context: Context, private val loginActivity: LoginActivity) :
     Dialog(context) {
@@ -25,7 +32,7 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
 
         viewModel = ViewModelProvider(
             loginActivity,
-            LoginViewModelFactory(provideLoginApi())
+            LoginViewModelFactory()
         )[LoginViewModel::class.java]
         initDialog()
 
@@ -36,8 +43,9 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
             )
         }
 
-        viewModel.loginResponse.observe(loginActivity) {
+        viewModel.responsePoppleLoginDto.observe(loginActivity) {
             Toast.makeText(context, it.accessToken.toString(), Toast.LENGTH_SHORT).show()
+            startWhichActivity(loginActivity)
         }
 
         viewModel.loginError.observe(loginActivity) {
@@ -53,6 +61,38 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
 
         ivLoginDialogClose.setOnClickListener {
             dismiss()
+        }
+
+        tvLoginDialogRegister.setOnClickListener {
+            Intent(loginActivity, RegisterActivity::class.java).run {
+                this@NormalLoginDialog.context.startActivity(this)
+            }
+        }
+    }
+
+    private fun checkSelfPermission(): Boolean {
+        return if (ContextCompat.checkSelfPermission(
+                loginActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ) {
+            true
+        } else ContextCompat.checkSelfPermission(
+            loginActivity,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun startWhichActivity(activity: AppCompatActivity) {
+        if(checkSelfPermission()) {
+            // 위치 기반 액세스 동의인 경우 바로 메인 액티비티로 이동
+            Intent(activity, MainActivity::class.java).run {
+                this@NormalLoginDialog.context.startActivity(this)
+            }
+        } else {
+            // 그 외에는 권한 동의 액티비티로 이동
+            Intent(activity, GpsActivity::class.java).run {
+                this@NormalLoginDialog.context.startActivity(this)
+            }
         }
     }
 }

@@ -1,39 +1,62 @@
 package com.dongbin.popple.ui.login
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
 
-import com.dongbin.popple.R
-import com.dongbin.popple.data.api.UserApi
-import com.dongbin.popple.data.model.LoginRequest
-import com.dongbin.popple.data.model.LoginResponse
+import com.dongbin.popple.data.api.provideNaverApiWithToken
+import com.dongbin.popple.data.api.provideUserApi
+import com.dongbin.popple.data.model.login.ResponsePoppleLoginDto
+import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
+import com.dongbin.popple.data.model.login.RequestSsoLoginDto
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class LoginViewModel(private val api: UserApi) : ViewModel() {
+class LoginViewModel() : ViewModel() {
 
-    private val _loginResponse =  MutableLiveData<LoginResponse>()
-    var loginResponse: LiveData<LoginResponse> = _loginResponse
+    private val userApi = provideUserApi()
 
-    private val _loginError =  MutableLiveData<String>()
+    private val _responsePopple_login = MutableLiveData<ResponsePoppleLoginDto>()
+    var responsePoppleLoginDto: LiveData<ResponsePoppleLoginDto> = _responsePopple_login
+
+    private val _loginError = MutableLiveData<String>()
     var loginError: LiveData<String> = _loginError
 
+    private val _naverProfile = MutableLiveData<ResponseNaverProfileDto?>()
+    var naverProfile: LiveData<ResponseNaverProfileDto?> = _naverProfile
+
     @SuppressLint("CheckResult")
-    fun login(id: String, password: String) {
-        api.login(id, password)
+    fun login(username: String, password: String) {
+        userApi.login(username, password)
             .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe ({response ->
-                if(response.accessToken != null)
-                    _loginResponse.postValue(response)
+            .doOnError { _loginError.postValue(it.message) }
+            .subscribe({
+                if (it.accessToken != null)
+                    _responsePopple_login.postValue(it)
             }) {
                 _loginError.postValue(it.message)
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    fun ssoLogin(username: String) {
+        userApi.ssoLogin(RequestSsoLoginDto(username))
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError { _loginError.postValue(it.message) }
+            .subscribe({
+                if (it.accessToken != null)
+                    _responsePopple_login.postValue(it)
+            }) {
+                _loginError.postValue(it.message)
+            }
+    }
+
+    fun getNaverProfile(accessToken: String) {
+        val disposable = provideNaverApiWithToken(accessToken).getUserProfile()
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError { _naverProfile.postValue(null) }
+            .subscribe {
+                _naverProfile.postValue(it)
             }
     }
 }
