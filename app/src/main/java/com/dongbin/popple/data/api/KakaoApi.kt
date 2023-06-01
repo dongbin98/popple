@@ -1,5 +1,6 @@
 package com.dongbin.popple.data.api
 
+import com.dongbin.popple.data.model.login.ResponseKakaoProfileDto
 import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
@@ -9,5 +10,5 @@ interface KakaoApi {
     // 프로필 조회
     @Headers("Accept: application/json", "content-type: application/json")
     @GET("me")
-    fun getUserProfile(): Observable<ResponseNaverProfileDto>
+    fun getUserProfile(): Observable<ResponseKakaoProfileDto>
 }

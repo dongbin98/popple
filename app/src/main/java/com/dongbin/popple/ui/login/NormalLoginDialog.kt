@@ -30,20 +30,17 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
         binding = DialogLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(
-            loginActivity,
-            LoginViewModelFactory()
-        )[LoginViewModel::class.java]
+        viewModel = LoginViewModel()
+        // Dialog에서 ViewModelProvider로 뷰모델 받아오면
+        // 액티비티에서의 동작으로 LivaData변화시 observe하는 문제..
+//        viewModel = ViewModelProvider(
+//            loginActivity,
+//            LoginViewModelFactory()
+//        )[LoginViewModel::class.java]
+
         initDialog()
 
-        binding.btLoginDialog.setOnClickListener {
-            viewModel.login(
-                binding.etLoginDialogId.text.toString(),
-                binding.etLoginDialogPassword.text.toString()
-            )
-        }
-
-        viewModel.responsePoppleLoginDto.observe(loginActivity) {
+        viewModel.loginResponse.observe(loginActivity) {
             Toast.makeText(context, it.accessToken.toString(), Toast.LENGTH_SHORT).show()
             startWhichActivity(loginActivity)
         }
@@ -67,6 +64,13 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
             Intent(loginActivity, RegisterActivity::class.java).run {
                 this@NormalLoginDialog.context.startActivity(this)
             }
+        }
+
+        btLoginDialog.setOnClickListener {
+            viewModel.login(
+                binding.etLoginDialogId.text.toString(),
+                binding.etLoginDialogPassword.text.toString()
+            )
         }
     }
 

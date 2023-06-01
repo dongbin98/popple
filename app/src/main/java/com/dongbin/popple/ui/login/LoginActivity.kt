@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.dongbin.popple.data.api.provideUserApi
+import com.dongbin.popple.data.model.login.ResponseKakaoProfileDto
 import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
+import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
 import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
 import com.dongbin.popple.databinding.ActivityLoginBinding
 import com.dongbin.popple.rx.AutoClearedDisposable
@@ -21,6 +23,7 @@ import com.dongbin.popple.ui.gps.GpsActivity
 import com.dongbin.popple.ui.main.MainActivity
 import com.dongbin.popple.ui.register.RegisterViewModel
 import com.dongbin.popple.ui.register.RegisterViewModelFactory
+import com.dongbin.popple.GlobalApplication
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -44,7 +47,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private var disposables = AutoClearedDisposable(this) // for RxKotlin
-    private var ssoEmail: String? = ""
+
+    // 임시 저장할 프로필 정보
+    private var responseNaverProfileDto: ResponseNaverProfileDto? = null
+    private var responseKakaoProfileDto: ResponseKakaoProfileDto? = null
+    private var ssoId: String? = ""  // Naver or Kakao 식별번호
+
+    lateinit var userInfo: GlobalApplication.UserInfo
 
     private val naverLoginLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -54,7 +63,9 @@ class LoginActivity : AppCompatActivity() {
                     access_token, refresh_token 등등 sharedPreferences(Naver) 저장
                      */
                     Log.i("NaverLogin", "네이버 회원 정보를 불러옵니다")
-                    loginViewModel.getNaverProfile(NaverIdLoginSDK.getAccessToken().toString())   // 네이버 프로필 가져오기
+                    loginViewModel.getNaverProfile(
+                        NaverIdLoginSDK.getAccessToken().toString()
+                    )   // 네이버 프로필 가져오기
                 }
 
                 RESULT_CANCELED -> {
@@ -93,14 +104,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-    private var kakaoToken: String? = ""
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 임시 저장할 프로필 정보
-        var responseNaverProfileDto: ResponseNaverProfileDto? = null
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -126,25 +131,36 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.naverProfile.observe(this) {
             if (it != null) {
-                // 네이버 회원정보를 가져오면 해당 정보로 가입된 아이디가 있는지 확인
+                // 네이버 회원정보를 가져오면 해당 정보로 가입된 계정이 있는지 확인
                 Log.i("NaverLogin", "팝플 가입 정보를 불러옵니다")
                 responseNaverProfileDto = it
-                ssoEmail = responseNaverProfileDto!!.response?.email
-                registerViewModel.checkAccount(responseNaverProfileDto!!.response?.email.toString())
+                ssoId = "naver${responseNaverProfileDto!!.response?.id}"
+                registerViewModel.checkAccount(ssoId!!)
+            }
+        }
+
+        loginViewModel.kakaoProfile.observe(this) {
+            if (it != null) {
+                // 카카오 회원정보를 가져오면 해당 정보로 가입된 계정이 있는지 확인
+                Log.i("KakaoLogin", "팝플 가입 정보를 불러옵니다")
+                responseKakaoProfileDto = it
+                ssoId = "kakao${responseKakaoProfileDto!!.id}"
+                registerViewModel.checkAccount(ssoId!!)
             }
         }
 
         registerViewModel.accountResponse.observe(this) {
-            // SSO 공통 (전제 : 회원정보를 토대로 email값으로 계정 유효 판별)
+            // 고유 id값으로 가입 여부 확인 :: 카카오 -> kakao${id}, 네이버 -> naver${id}
             if (it == "unavailable") {  // 회원등록이 되어있는 경우
                 Log.i("SsoLogin", "가입된 정보로 팝플에 로그인합니다")
-                loginViewModel.ssoLogin(ssoEmail.toString())
-            } else {    // 회원등록이 안되어있는 경우 가입절차
-                Log.i("NaverLogin", "팝플 가입을 진행합니다")
+                loginViewModel.ssoLogin(ssoId.toString())
+            }
+            else {    // 회원등록이 안되어있는 경우 가입절차
                 if (responseNaverProfileDto != null) {  // 네이버로 회원정보를 가져온 경우
+                    Log.i("NaverLogin", "팝플 가입을 진행합니다")
                     registerViewModel.registerWithNaver(
                         RequestRegisterWithNaverDto(
-                            account = responseNaverProfileDto!!.response?.email.toString(),
+                            account = "naver${responseNaverProfileDto!!.response?.id}",
                             name = responseNaverProfileDto!!.response?.name.toString(),
                             nickname = responseNaverProfileDto!!.response?.nickname.toString(),
                             birth = responseNaverProfileDto!!.response?.birthyear.toString() + "-" + responseNaverProfileDto!!.response?.birthday.toString(),
@@ -153,14 +169,29 @@ class LoginActivity : AppCompatActivity() {
                                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS"))
                         )
                     )
-                } else {
-                    // 카카오, 구글은 추후 구현
-                    println("그 외 가입은 추후 구현할게요")
+                } else if (responseKakaoProfileDto != null) {   // 카카오로 회원정보를 가져온 경우
+                    Log.i("KakaoLogin", "팝플 가입을 진행합니다")
+                    registerViewModel.registerWithKakao(
+                        RequestRegisterWithKakaoDto(
+                            account = "kakao${responseKakaoProfileDto!!.id}",
+                            name = responseKakaoProfileDto!!.properties?.nickname.toString(),
+                            login_type = "kakao",
+                            created_at = LocalDateTime.now()
+                                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS"))
+                        )
+                    )
                 }
             }
         }
 
-        loginViewModel.responsePoppleLoginDto.observe(this) {
+        registerViewModel.registerResponse.observe(this) {
+            if (it == ssoId.toString()) {
+                Log.i("SsoLogin", "가입된 정보로 팝플에 로그인합니다")
+                loginViewModel.ssoLogin(ssoId.toString())
+            }
+        }
+
+        loginViewModel.loginResponse.observe(this) {
             Log.i("SSOLogin", "팝플 로그인 성공")
             startWhichActivity()
         }
@@ -172,6 +203,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        responseNaverProfileDto = null
+        responseKakaoProfileDto = null
+        ssoId = ""
 
         /* Kakao already Login check */
 
@@ -238,8 +273,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }.subscribe({ token ->
                         Log.i("KakaoLogin", "카카오톡 로그인 성공 ${token.accessToken}")
-                        kakaoToken = token.accessToken
-                        startWhichActivity()
+                        loginViewModel.getKakaoProfile(token.accessToken)
                     }, { error ->
                         Log.e("KakaoLogin", "카카오톡 로그인 실패", error)
                     })
@@ -247,8 +281,7 @@ class LoginActivity : AppCompatActivity() {
                 UserApiClient.rx.loginWithKakaoAccount(this@LoginActivity)
                     .observeOn(AndroidSchedulers.mainThread()).subscribe({ token ->
                         Log.i("KakaoLogin", "카카오계정 로그인 성공 ${token.accessToken}")
-                        kakaoToken = token.accessToken
-                        startWhichActivity()
+                        loginViewModel.getKakaoProfile(token.accessToken)
                     }, { error ->
                         Log.e("KakaoLogin", "카카오계정 로그인 실패", error)
                     })
@@ -266,7 +299,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginNormal() {
-        val dialog = NormalLoginDialog(this@LoginActivity, this).show()
+        NormalLoginDialog(this, this).show()
     }
 
     /*private fun logoutWithKakao() {

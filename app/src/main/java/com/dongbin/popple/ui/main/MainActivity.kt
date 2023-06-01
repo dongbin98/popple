@@ -1,6 +1,7 @@
 package com.dongbin.popple.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("MainActivity", "onCreate()")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

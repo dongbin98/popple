@@ -4,6 +4,7 @@ import com.dongbin.popple.data.model.login.ResponsePoppleLoginDto
 import com.dongbin.popple.data.model.login.RequestSsoLoginDto
 import com.dongbin.popple.data.model.register.ResponseDuplicateCheckDto
 import com.dongbin.popple.data.model.register.RequestRegisterDto
+import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
 import com.dongbin.popple.data.model.register.ResponseRegisterDto
 import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
 import io.reactivex.rxjava3.core.Observable
@@ -38,7 +39,12 @@ interface UserApi {
     // 회원가입 with Naver
     @Headers("Accept: application/json", "content-type: application/json")
     @POST("add/naver")
-    fun registerWithNaver(@Body registerWithNaveRequest: RequestRegisterWithNaverDto): Observable<ResponseRegisterDto>
+    fun registerWithNaver(@Body requestRegisterWithNaverDto: RequestRegisterWithNaverDto): Observable<ResponseRegisterDto>
+
+    // 회원가입 with Kakao
+    @Headers("Accept: application/json", "content-type: application/json")
+    @POST("add/kakao")
+    fun registerWithKakao(@Body requestRegisterWithKakaoDto: RequestRegisterWithKakaoDto): Observable<ResponseRegisterDto>
 
     // 아이디 중복확인
     @Headers("Accept: application/json", "content-type: application/json")

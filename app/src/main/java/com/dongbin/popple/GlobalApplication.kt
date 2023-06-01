@@ -1,4 +1,4 @@
-package com.dongbin.popple.util
+package com.dongbin.popple
 
 import android.app.Application
 import android.content.pm.PackageManager

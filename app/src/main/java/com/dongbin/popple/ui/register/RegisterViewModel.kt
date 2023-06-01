@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dongbin.popple.data.api.UserApi
 import com.dongbin.popple.data.model.register.RequestRegisterDto
+import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
 import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
@@ -72,6 +73,22 @@ class RegisterViewModel(private val api: UserApi) : ViewModel() {
     @SuppressLint("CheckResult")
     fun registerWithNaver(requestRegisterWithNaverDto: RequestRegisterWithNaverDto) {
         api.registerWithNaver(requestRegisterWithNaverDto)
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError {
+                _registerResponse.postValue(it.message)
+            }
+            .subscribe {
+                if (it.account != null) {
+                    _registerResponse.postValue(it.account.toString())
+                } else {
+                    _registerResponse.postValue("register failed")
+                }
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    fun registerWithKakao(requestRegisterWithKakaoDto: RequestRegisterWithKakaoDto) {
+        api.registerWithKakao(requestRegisterWithKakaoDto)
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnError {
                 _registerResponse.postValue(it.message)
