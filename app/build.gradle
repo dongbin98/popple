@@ -86,4 +86,6 @@ dependencies {
     // rxKotlin
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    // FusedLocationProviderClient
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 }

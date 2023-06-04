@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,8 @@ class RegisterActivity : AppCompatActivity() {
     private var isDuplicatedNickname: Boolean = true    // 닉네임 중복 시
     private var isIncorrectPasswordPattern: Boolean = true  // 비밀번호 양식 불만족 시
     private var isIncorrectPwWithPwCheck: Boolean = true    // 비밀번호, 비밀번호 확인 불일치 시
+
+    private var isSsoRegister: Boolean = false  // SSO를 통한 가입일 시
 
     // 아이디 & 비밀번호 유효성 검사 정규식
     private val regexForPassword =
@@ -90,6 +93,13 @@ class RegisterActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun initView() = with(binding) {
+        // Toolbar
+        setSupportActionBar(tbRegister)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = ""
+        }
+
         // 아이디 중복 확인 클릭 이벤트
         btRegisterIdCheck.setOnClickListener {
             registerViewModel.checkAccount(etRegisterId.text.toString())
@@ -195,5 +205,10 @@ class RegisterActivity : AppCompatActivity() {
             }
             isDuplicatedNickname = true
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return super.onOptionsItemSelected(item)
     }
 }

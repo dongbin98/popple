@@ -53,8 +53,6 @@ class LoginActivity : AppCompatActivity() {
     private var responseKakaoProfileDto: ResponseKakaoProfileDto? = null
     private var ssoId: String? = ""  // Naver or Kakao 식별번호
 
-    lateinit var userInfo: GlobalApplication.UserInfo
-
     private val naverLoginLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {

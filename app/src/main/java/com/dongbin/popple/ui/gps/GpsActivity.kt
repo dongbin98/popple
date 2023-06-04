@@ -11,6 +11,8 @@ import com.dongbin.popple.R
 import com.dongbin.popple.databinding.ActivityGpsBinding
 import com.dongbin.popple.databinding.ActivityMainBinding
 import com.dongbin.popple.ui.main.MainActivity
+import com.dongbin.popple.ui.main.ui.map.MapFragment
+import com.naver.maps.map.util.FusedLocationSource
 
 class GpsActivity : AppCompatActivity() {
 
@@ -18,27 +20,16 @@ class GpsActivity : AppCompatActivity() {
 
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permission ->
-            when {
-                permission.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                    Toast.makeText(this, "위치기반 액세스 권한에 동의하셨습니다.", Toast.LENGTH_SHORT).show()
-                    Intent(this, MainActivity::class.java).run {
-                        startActivity(this)
-                    }
-                }
 
-                permission.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                    Toast.makeText(this, "위치기반 액세스 권한에 동의하셨습니다.", Toast.LENGTH_SHORT).show()
-                    Intent(this, MainActivity::class.java).run {
-                        startActivity(this)
-                    }
-                }
+            val fineLocationGranted = permission[Manifest.permission.ACCESS_FINE_LOCATION]
+            val coarseLocationGranted = permission[Manifest.permission.ACCESS_COARSE_LOCATION]
 
-                else -> {
-                    Toast.makeText(this, "위치기반 액세스 권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
-                    Intent(this, MainActivity::class.java).run {
-                        startActivity(this)
-                    }
-                }
+            if (fineLocationGranted != true && coarseLocationGranted != true) {
+                Toast.makeText(this, "위치기반 액세스 권한에 동의하셨습니다.", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(this, "위치기반 액세스 권한에 동의하셨습니다.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
