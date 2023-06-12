@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dongbin.popple.data.api.UserApi
-import com.dongbin.popple.data.model.register.RequestRegisterDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
+import com.dongbin.popple.data.dto.register.RequestRegisterDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithKakaoDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithNaverDto
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class RegisterViewModel(private val api: UserApi) : ViewModel() {

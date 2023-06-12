@@ -11,11 +11,12 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.dongbin.popple.GlobalApplication
 import com.dongbin.popple.data.api.provideUserApi
-import com.dongbin.popple.data.model.login.ResponseKakaoProfileDto
-import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
+import com.dongbin.popple.data.dto.login.ResponseKakaoProfileDto
+import com.dongbin.popple.data.dto.login.ResponseNaverProfileDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithKakaoDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithNaverDto
 import com.dongbin.popple.databinding.ActivityLoginBinding
 import com.dongbin.popple.rx.AutoClearedDisposable
 import com.dongbin.popple.ui.gps.GpsActivity
@@ -23,7 +24,6 @@ import com.dongbin.popple.ui.gps.GpsActivity
 import com.dongbin.popple.ui.main.MainActivity
 import com.dongbin.popple.ui.register.RegisterViewModel
 import com.dongbin.popple.ui.register.RegisterViewModelFactory
-import com.dongbin.popple.GlobalApplication
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -191,11 +191,22 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.loginResponse.observe(this) {
             Log.i("SSOLogin", "팝플 로그인 성공")
-            startWhichActivity()
+            GlobalApplication.instance.accessToken = it.accessToken
+            loginViewModel.getUserInfo(it.userName.toString())
         }
 
         loginViewModel.loginError.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+
+        loginViewModel.userInfoResponse.observe(this) {
+            Log.i("SSOLogin", "유저 정보 로드")
+            GlobalApplication.instance.id = it.id
+            GlobalApplication.instance.account = it.account.toString()
+            GlobalApplication.instance.name = it.name
+            GlobalApplication.instance.nickname = it.nickname.toString()
+            GlobalApplication.instance.loginType = it.loginType
+            startWhichActivity()
         }
     }
 

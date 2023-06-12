@@ -8,12 +8,14 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.dongbin.popple.GlobalApplication
 import com.dongbin.popple.databinding.DialogLoginBinding
 import com.dongbin.popple.ui.gps.GpsActivity
 import com.dongbin.popple.ui.main.MainActivity
@@ -41,12 +43,23 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
         initDialog()
 
         viewModel.loginResponse.observe(loginActivity) {
-            Toast.makeText(context, it.accessToken.toString(), Toast.LENGTH_SHORT).show()
-            startWhichActivity(loginActivity)
+            Log.i("Login", "팝플 로그인 성공")
+            GlobalApplication.instance.accessToken = it.accessToken
+            viewModel.getUserInfo(it.userName.toString())
         }
 
         viewModel.loginError.observe(loginActivity) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(loginActivity, it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.userInfoResponse.observe(loginActivity) {
+            Log.i("SSOLogin", "유저 정보 로드")
+            GlobalApplication.instance.id = it.id
+            GlobalApplication.instance.account = it.account.toString()
+            GlobalApplication.instance.name = it.name
+            GlobalApplication.instance.nickname = it.nickname.toString()
+            GlobalApplication.instance.loginType = it.loginType
+            startWhichActivity(loginActivity)
         }
     }
 

@@ -8,10 +8,11 @@ import com.dongbin.popple.data.api.provideKakaoApiWithToken
 
 import com.dongbin.popple.data.api.provideNaverApiWithToken
 import com.dongbin.popple.data.api.provideUserApi
-import com.dongbin.popple.data.model.login.ResponsePoppleLoginDto
-import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
-import com.dongbin.popple.data.model.login.RequestSsoLoginDto
-import com.dongbin.popple.data.model.login.ResponseKakaoProfileDto
+import com.dongbin.popple.data.dto.login.ResponsePoppleLoginDto
+import com.dongbin.popple.data.dto.login.ResponseNaverProfileDto
+import com.dongbin.popple.data.dto.login.RequestSsoLoginDto
+import com.dongbin.popple.data.dto.login.ResponseKakaoProfileDto
+import com.dongbin.popple.data.dto.register.ResponseDuplicateCheckDto
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class LoginViewModel() : ViewModel() {
@@ -29,6 +30,9 @@ class LoginViewModel() : ViewModel() {
 
     private val _kakaoProfile = MutableLiveData<ResponseKakaoProfileDto?>()
     var kakaoProfile: LiveData<ResponseKakaoProfileDto?> = _kakaoProfile
+
+    private val _userInfoResponse = MutableLiveData<ResponseDuplicateCheckDto>()
+    var userInfoResponse: LiveData<ResponseDuplicateCheckDto> = _userInfoResponse
 
     @SuppressLint("CheckResult")
     fun login(username: String, password: String) {
@@ -54,6 +58,12 @@ class LoginViewModel() : ViewModel() {
             }) {
                 _loginError.postValue(it.message)
             }
+    }
+
+    @SuppressLint("CheckResult")
+    fun getUserInfo(account: String) {
+        userApi.checkAccount(account).subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe { _userInfoResponse.postValue(it) }
     }
 
     fun getNaverProfile(accessToken: String) {

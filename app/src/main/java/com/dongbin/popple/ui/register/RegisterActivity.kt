@@ -11,7 +11,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dongbin.popple.R
 import com.dongbin.popple.data.api.provideUserApi
-import com.dongbin.popple.data.model.register.RequestRegisterDto
+import com.dongbin.popple.data.dto.register.RequestRegisterDto
 import com.dongbin.popple.databinding.ActivityRegisterBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
