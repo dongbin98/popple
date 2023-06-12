@@ -1,12 +1,12 @@
 package com.dongbin.popple.data.api
 
-import com.dongbin.popple.data.model.login.ResponsePoppleLoginDto
-import com.dongbin.popple.data.model.login.RequestSsoLoginDto
-import com.dongbin.popple.data.model.register.ResponseDuplicateCheckDto
-import com.dongbin.popple.data.model.register.RequestRegisterDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithKakaoDto
-import com.dongbin.popple.data.model.register.ResponseRegisterDto
-import com.dongbin.popple.data.model.register.RequestRegisterWithNaverDto
+import com.dongbin.popple.data.dto.login.ResponsePoppleLoginDto
+import com.dongbin.popple.data.dto.login.RequestSsoLoginDto
+import com.dongbin.popple.data.dto.register.ResponseDuplicateCheckDto
+import com.dongbin.popple.data.dto.register.RequestRegisterDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithKakaoDto
+import com.dongbin.popple.data.dto.register.ResponseRegisterDto
+import com.dongbin.popple.data.dto.register.RequestRegisterWithNaverDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Body
 import retrofit2.http.Field

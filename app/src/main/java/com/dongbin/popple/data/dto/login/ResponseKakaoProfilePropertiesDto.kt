@@ -1,13 +1,9 @@
-package com.dongbin.popple.data.model.register
+package com.dongbin.popple.data.dto.login
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ResponseDuplicateCheckDto(
-    @SerializedName("account")
-    @Expose
-    val account: String?,
-
+data class ResponseKakaoProfilePropertiesDto(
     @SerializedName("nickname")
     @Expose
     val nickname: String?,

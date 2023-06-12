@@ -1,7 +1,6 @@
 package com.dongbin.popple.data.api
 
-import com.dongbin.popple.data.model.login.ResponseKakaoProfileDto
-import com.dongbin.popple.data.model.login.ResponseNaverProfileDto
+import com.dongbin.popple.data.dto.login.ResponseKakaoProfileDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers

@@ -1,4 +1,4 @@
-package com.dongbin.popple.data.model.register
+package com.dongbin.popple.data.dto.register
 
 data class RequestRegisterDto (
     val account: String,

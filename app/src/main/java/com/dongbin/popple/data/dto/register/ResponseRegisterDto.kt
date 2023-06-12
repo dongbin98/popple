@@ -1,4 +1,4 @@
-package com.dongbin.popple.data.model.register
+package com.dongbin.popple.data.dto.register
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
