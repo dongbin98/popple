@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
     }
     private lateinit var naverMap: NaverMap
-    private lateinit var myGps: LatLng
 
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permission ->
@@ -78,10 +78,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val locationCallBack = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
-            myGps = LatLng(
-                result.lastLocation!!.latitude,
-                result.lastLocation!!.longitude
-            )
+            Log.i("locationCallBack", "location loaded")
+            // moveToMyGps()
         }
     }
 
@@ -98,12 +96,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
 
-        init()
-
         return binding.root
     }
 
-    private fun init() {
+    private fun init() {    // onMapReady 이후 호출됨
         if(checkSelfPermission()) {
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallBack, Looper.myLooper())
             initView()
@@ -132,12 +128,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         var currentLocation: Location?
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location == null)
+            if (location == null) {
                 fusedLocationClient.requestLocationUpdates(
                     locationRequest,
                     locationCallBack,
                     Looper.myLooper()
                 )
+            }
+
             currentLocation = location
             // 위치 오버레이 가시성 default false, true 시 파란색 점으로 현재 위치 표시
             naverMap.locationOverlay.run {
@@ -201,10 +199,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        fusedLocationClient.removeLocationUpdates(locationCallBack)
         _binding = null
     }
 
     override fun onMapReady(naverMap: NaverMap) {
+        init()
         // 네이버 맵 불러오기 완료 시 콜백
         this.naverMap = naverMap
         naverMap.locationSource = locationSource   // 내장 위치 추적 기능 사용
