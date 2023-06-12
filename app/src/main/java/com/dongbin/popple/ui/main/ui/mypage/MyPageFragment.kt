@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.dongbin.popple.GlobalApplication
+import com.dongbin.popple.R
 import com.dongbin.popple.databinding.FragmentMypageBinding
 
 class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMypageBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,14 +25,21 @@ class MyPageFragment : Fragment() {
         val myPageViewModel =
             ViewModelProvider(this)[MyPageViewModel::class.java]
 
-        _binding = FragmentMypageBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mypage, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        val textView: TextView = binding.textMypage
-        myPageViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.user = GlobalApplication.instance
+
+        initView()
+
+        return binding.root
+    }
+
+    private fun initView() = with(binding) {
+        tvMypageLogout.setOnClickListener {
+            GlobalApplication.instance.clearUserInfo()
+            activity?.finish()
         }
-        return root
     }
 
     override fun onDestroyView() {

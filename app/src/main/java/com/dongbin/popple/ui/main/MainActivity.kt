@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.dongbin.popple.GlobalApplication
 import com.dongbin.popple.R
 import com.dongbin.popple.databinding.ActivityMainBinding
 import com.dongbin.popple.ui.enroll.EnrollActivity
@@ -26,6 +28,21 @@ class MainActivity : AppCompatActivity() {
     private var heartFragment: HeartFragment? = null
     private var myPageFragment: MyPageFragment? = null
 
+    private var time: Long = 0
+
+    // onBackPressed Deprecated in API Level 33
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (System.currentTimeMillis() - time >= 2000) {
+                time = System.currentTimeMillis()
+                Toast.makeText(this@MainActivity, "한번 더 뒤로가기 시 앱이 종료됩니다.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (System.currentTimeMillis() - time < 2000) {
+                finishAffinity()    // 앱 자체 종료
+            }
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +52,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        )
+
+        this.onBackPressedDispatcher.addCallback(this, callback)
 
         initBottomNavigation()
 
@@ -103,6 +122,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_assign -> {
+                    if(GlobalApplication.instance.id == null) {
+                        Toast.makeText(this@MainActivity, "로그인 후 등록 가능합니다", Toast.LENGTH_SHORT).show()
+                        return@setOnItemSelectedListener false
+                    }
                     // 클릭 이전 프래그먼트 위치로 가도록 해야함
                     for (fragment in supportFragmentManager.fragments) {
                         when (fragment) {
@@ -132,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                     Intent(this@MainActivity, EnrollActivity::class.java).run {
                         startActivity(this)
                     }
-                    return@setOnItemSelectedListener true
+                    return@setOnItemSelectedListener false
                 }
 
                 R.id.menu_mypage -> {
@@ -154,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    return@setOnItemSelectedListener true
+                    return@setOnItemSelectedListener false
                 }
             }
         }
