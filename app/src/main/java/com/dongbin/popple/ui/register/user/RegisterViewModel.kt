@@ -1,13 +1,13 @@
-package com.dongbin.popple.ui.register
+package com.dongbin.popple.ui.register.user
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dongbin.popple.data.api.UserApi
-import com.dongbin.popple.data.dto.register.RequestRegisterDto
-import com.dongbin.popple.data.dto.register.RequestRegisterWithKakaoDto
-import com.dongbin.popple.data.dto.register.RequestRegisterWithNaverDto
+import com.dongbin.popple.data.dto.user.UserRegisterRequestDto
+import com.dongbin.popple.data.dto.user.UserRegisterWithKakaoRequestDto
+import com.dongbin.popple.data.dto.user.UserRegisterWithNaverRequestDto
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class RegisterViewModel(private val api: UserApi) : ViewModel() {
@@ -55,8 +55,8 @@ class RegisterViewModel(private val api: UserApi) : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun register(requestRegisterDto: RequestRegisterDto) {
-        api.register(requestRegisterDto)
+    fun register(userRegisterRequestDto: UserRegisterRequestDto) {
+        api.register(userRegisterRequestDto)
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnError {
                 _registerResponse.postValue(it.message)
@@ -71,8 +71,8 @@ class RegisterViewModel(private val api: UserApi) : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun registerWithNaver(requestRegisterWithNaverDto: RequestRegisterWithNaverDto) {
-        api.registerWithNaver(requestRegisterWithNaverDto)
+    fun registerWithNaver(userRegisterWithNaverRequestDto: UserRegisterWithNaverRequestDto) {
+        api.registerWithNaver(userRegisterWithNaverRequestDto)
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnError {
                 _registerResponse.postValue(it.message)
@@ -87,8 +87,8 @@ class RegisterViewModel(private val api: UserApi) : ViewModel() {
     }
 
     @SuppressLint("CheckResult")
-    fun registerWithKakao(requestRegisterWithKakaoDto: RequestRegisterWithKakaoDto) {
-        api.registerWithKakao(requestRegisterWithKakaoDto)
+    fun registerWithKakao(userRegisterWithKakaoRequestDto: UserRegisterWithKakaoRequestDto) {
+        api.registerWithKakao(userRegisterWithKakaoRequestDto)
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnError {
                 _registerResponse.postValue(it.message)

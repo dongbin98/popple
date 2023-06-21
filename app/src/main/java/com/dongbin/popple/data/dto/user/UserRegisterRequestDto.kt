@@ -1,7 +1,8 @@
-package com.dongbin.popple.data.dto.register
+package com.dongbin.popple.data.dto.user
 
-data class RequestRegisterWithNaverDto (
+data class UserRegisterRequestDto (
     val account: String,
+    val password: String,
     val birth: String,  // 여기서 String으로 보내도 FastApi schema에서 변환
     val name: String,
     val nickname: String,

@@ -3,7 +3,7 @@ package com.dongbin.popple.data.dto.login
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ResponseNaverProfileDto(
+data class NaverProfileResponseDto(
     @SerializedName("resultcode")
     @Expose
     val accessToken: String?,
@@ -14,5 +14,5 @@ data class ResponseNaverProfileDto(
 
     @SerializedName("response")
     @Expose
-    val response: ResponseNaverProfileResponseDto?,
+    val response: NaverProfilePropertiesResponseDto?,
 )

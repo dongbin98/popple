@@ -1,9 +1,9 @@
-package com.dongbin.popple.data.dto.register
+package com.dongbin.popple.data.dto.user
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ResponseRegisterDto(
+data class UserRegisterResponseDto(
     @SerializedName("account")
     @Expose
     val account: String?,

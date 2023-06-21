@@ -1,4 +1,4 @@
-package com.dongbin.popple.ui.register
+package com.dongbin.popple.ui.register.user
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -11,7 +11,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.dongbin.popple.R
 import com.dongbin.popple.data.api.provideUserApi
-import com.dongbin.popple.data.dto.register.RequestRegisterDto
+import com.dongbin.popple.data.dto.user.UserRegisterRequestDto
 import com.dongbin.popple.databinding.ActivityRegisterBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +35,7 @@ class RegisterActivity : AppCompatActivity() {
     // 아이디 & 비밀번호 유효성 검사 정규식
     private val regexForPassword =
         "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&.])[A-Za-z[0-9]$@$!%*#?&.]{9,16}$"   // 비밀번호 정규식
-    private val patternForEmail: Pattern = Pattern.compile(regexForPassword)
+    private val patternForPassword: Pattern = Pattern.compile(regexForPassword)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +135,7 @@ class RegisterActivity : AppCompatActivity() {
                 etRegisterName.text.isNotBlank()
             ) {
                 registerViewModel.register(
-                    RequestRegisterDto(
+                    UserRegisterRequestDto(
                         account = etRegisterId.text.toString(),
                         password = etRegisterPw.text.toString(),
                         name = etRegisterName.text.toString(),
@@ -172,7 +172,7 @@ class RegisterActivity : AppCompatActivity() {
         // 비밀번호 정규식 표현 확인
         etRegisterPw.doOnTextChanged { text, _, _, _ ->
             if (text != null) {
-                val matcherForPassword: Matcher = patternForEmail.matcher(text)
+                val matcherForPassword: Matcher = patternForPassword.matcher(text)
                 isIncorrectPasswordPattern = if (matcherForPassword.find()) {
                     binding.etRegisterPw.setTextColor(getColor(R.color.blue))
                     false

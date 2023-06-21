@@ -1,4 +1,4 @@
-package com.dongbin.popple.ui.register
+package com.dongbin.popple.ui.register.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

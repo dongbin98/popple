@@ -3,8 +3,8 @@ package com.dongbin.popple.data.dto.login
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ResponseKakaoProfileAccountDto(
-    @SerializedName("email")
+data class KakaoProfilePropertiesResponseDto(
+    @SerializedName("nickname")
     @Expose
-    val email: String?,
+    val nickname: String?,
 )

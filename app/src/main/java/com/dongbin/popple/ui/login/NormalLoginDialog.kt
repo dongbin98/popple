@@ -14,12 +14,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.dongbin.popple.GlobalApplication
 import com.dongbin.popple.databinding.DialogLoginBinding
 import com.dongbin.popple.ui.gps.GpsActivity
 import com.dongbin.popple.ui.main.MainActivity
-import com.dongbin.popple.ui.register.RegisterActivity
+import com.dongbin.popple.ui.register.user.RegisterActivity
 
 class NormalLoginDialog(context: Context, private val loginActivity: LoginActivity) :
     Dialog(context) {
@@ -44,7 +43,7 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
 
         viewModel.loginResponse.observe(loginActivity) {
             Log.i("Login", "팝플 로그인 성공")
-            GlobalApplication.instance.accessToken = it.accessToken
+            GlobalApplication.instance.user.accessToken = it.accessToken
             viewModel.getUserInfo(it.userName.toString())
         }
 
@@ -54,11 +53,11 @@ class NormalLoginDialog(context: Context, private val loginActivity: LoginActivi
 
         viewModel.userInfoResponse.observe(loginActivity) {
             Log.i("SSOLogin", "유저 정보 로드")
-            GlobalApplication.instance.id = it.id
-            GlobalApplication.instance.account = it.account.toString()
-            GlobalApplication.instance.name = it.name
-            GlobalApplication.instance.nickname = it.nickname.toString()
-            GlobalApplication.instance.loginType = it.loginType
+            GlobalApplication.instance.user.id = it.id
+            GlobalApplication.instance.user.account = it.account.toString()
+            GlobalApplication.instance.user.name = it.name
+            GlobalApplication.instance.user.nickName = it.nickname.toString()
+            GlobalApplication.instance.user.loginType = it.loginType
             startWhichActivity(loginActivity)
         }
     }
