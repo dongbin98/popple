@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DynamicElementsStorage">
+    <option name="containingClasses">
+      <map>
+        <entry key="java.lang.Void">
+          <value>
+            <DClassElement>
+              <option name="name" value="java.lang.Void" />
+              <option name="myName" value="java.lang.Void" />
+              <option name="myProperties">
+                <set>
+                  <DPropertyElement>
+                    <option name="name" value="kakaoSdkKey" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="kakaoSdkKey" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="naverMapSdkId" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="naverMapSdkId" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="naverMapSdkSecret" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="naverMapSdkSecret" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="naverSdkId" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="naverSdkId" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="naverSdkName" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="naverSdkName" />
+                  </DPropertyElement>
+                  <DPropertyElement>
+                    <option name="name" value="naverSdkSecret" />
+                    <option name="static" value="false" />
+                    <option name="type" value="java.lang.String" />
+                    <option name="myType" value="java.lang.String" />
+                    <option name="myStatic" value="false" />
+                    <option name="myName" value="naverSdkSecret" />
+                  </DPropertyElement>
+                </set>
+              </option>
+            </DClassElement>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
