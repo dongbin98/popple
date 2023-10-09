@@ -29,6 +29,7 @@ class EnrollActivity : AppCompatActivity() {
         val adapter =  EnrollAdapter(this@EnrollActivity, 2)
         enrollViewpager.apply {
             this.adapter = adapter
+            isUserInputEnabled = false
         }
 
         // RadioButton

@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_assign -> {
-                    if(GlobalApplication.instance.id == null) {
+                    if(GlobalApplication.instance.user.id == null) {
                         Toast.makeText(this@MainActivity, "로그인 후 등록 가능합니다", Toast.LENGTH_SHORT).show()
                         return@setOnItemSelectedListener false
                     }

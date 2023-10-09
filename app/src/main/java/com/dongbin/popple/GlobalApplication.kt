@@ -3,6 +3,7 @@ package com.dongbin.popple
 import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Build
+import com.dongbin.popple.data.model.LoggedUser
 import com.kakao.sdk.common.KakaoSdk
 import com.naver.maps.map.NaverMapSdk
 import com.navercorp.nid.NaverIdLoginSDK
@@ -12,12 +13,7 @@ class GlobalApplication : Application() {
         instance = this
     }
 
-    var id: Int? = null
-    var account: String? = null
-    var name: String? = null
-    var nickname: String? = null
-    var loginType: String? = null
-    var accessToken: String? = null
+    var user: LoggedUser = LoggedUser()
 
     override fun onCreate() {
         super.onCreate()
@@ -47,15 +43,6 @@ class GlobalApplication : Application() {
 
         /* Kakao Login Module Init */
         KakaoSdk.init(this, metadata.getString("com.dongbin.popple.kakaoSdkKey").toString())
-    }
-
-    fun clearUserInfo() {
-        id = null
-        account = null
-        name = null
-        nickname = null
-        loginType = null
-        accessToken = null
     }
 
     companion object {

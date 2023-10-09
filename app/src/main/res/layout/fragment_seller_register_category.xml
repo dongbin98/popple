@@ -1,34 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.enroll.ui.popupstore.EnrollPopupStoreFragment">
+    tools:context=".ui.register.seller.ui.SellerRegisterCategoryFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tb_seller_register_category"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/iv_orange_progressbar"
+            android:progress="40"
+            android:layout_gravity="center"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="75dp"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:id="@+id/tv_enroll_flee_info"
+        android:id="@+id/tv_seller_register_category_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="카테고리를 선택해주세요"
+        android:layout_marginTop="48dp"
+        android:text="주요 카테고리 설정"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:drawableEndCompat="@drawable/iv_necessary_star" />
+        app:layout_constraintTop_toBottomOf="@id/tb_seller_register_category" />
+
+    <TextView
+        android:id="@+id/tv_seller_register_category_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="판매 계획 중이거나 관심있는 분야를 선택해 주세요. (최대 2개)"
+        android:textColor="@color/gray2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_seller_register_category_title" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_fashion"
+        android:id="@+id/cb_seller_register_category_fashion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_fashion_checkbox"
         android:button="@android:color/transparent" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_accessory"
+        android:id="@+id/cb_seller_register_category_accessory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_accessory_checkbox"
@@ -36,7 +67,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_beauty"
+        android:id="@+id/cb_seller_register_category_beauty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_beauty_checkbox"
@@ -44,7 +75,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_living"
+        android:id="@+id/cb_seller_register_category_living"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_living_checkbox"
@@ -52,7 +83,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_stationery"
+        android:id="@+id/cb_seller_register_category_stationery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_stationery_checkbox"
@@ -60,7 +91,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_food"
+        android:id="@+id/cb_seller_register_category_food"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_food_checkbox"
@@ -68,7 +99,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_pet"
+        android:id="@+id/cb_seller_register_category_pet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_pet_checkbox"
@@ -76,7 +107,7 @@
         tools:ignore="MissingConstraints" />
 
     <CheckBox
-        android:id="@+id/cb_enroll_flee_category_etc"
+        android:id="@+id/cb_seller_register_category_etc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_etc_checkbox"
@@ -84,29 +115,33 @@
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flow_enroll_flee_market"
+        android:id="@+id/flow_seller_register_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="cb_enroll_flee_category_fashion, cb_enroll_flee_category_accessory, cb_enroll_flee_category_beauty, cb_enroll_flee_category_living, cb_enroll_flee_category_stationery, cb_enroll_flee_category_food, cb_enroll_flee_category_pet, cb_enroll_flee_category_etc"
+        app:constraint_referenced_ids="cb_seller_register_category_fashion, cb_seller_register_category_accessory, cb_seller_register_category_beauty, cb_seller_register_category_living, cb_seller_register_category_stationery, cb_seller_register_category_food, cb_seller_register_category_pet, cb_seller_register_category_etc"
         app:flow_horizontalGap="16dp"
         app:flow_maxElementsWrap="4"
         app:flow_verticalGap="16dp"
         app:flow_wrapMode="chain"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="92dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_enroll_flee_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_seller_register_category_explain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_enroll_flee_divider"
+
+    <Button
+        android:id="@+id/bt_seller_register_category"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray1"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintTop_toBottomOf="@id/flow_enroll_flee_market"/>
+        android:layout_marginBottom="70dp"
+        android:text="계속"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

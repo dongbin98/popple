@@ -79,7 +79,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
             Log.i("locationCallBack", "location loaded")
-            // moveToMyGps()
+            moveToMyGps()
+            fusedLocationClient.removeLocationUpdates(this)
         }
     }
 
@@ -116,12 +117,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun initView() = with(binding) {
         ibGpsFix.setOnClickListener {
+            Toast.makeText(requireContext(), "내 위치로 이동", Toast.LENGTH_SHORT).show()
             moveToMyGps()
         }
     }
 
     private fun moveToMyGps() {
-        Toast.makeText(requireContext(), "내 위치로 이동", Toast.LENGTH_SHORT).show()
         // 위치 권한 없을 시 내 위치 불러오지 않음
         if (!checkSelfPermission())
             return
@@ -134,6 +135,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     locationCallBack,
                     Looper.myLooper()
                 )
+                return@addOnSuccessListener
             }
 
             currentLocation = location
